@@ -5,7 +5,7 @@ Counting is hard, but there's an app for that.
 
 ## ✨ Features
 
-- Nothing yet!
+- Count to a given number of loops using the Web Speech API
 
 ## 📄 Scripts
 

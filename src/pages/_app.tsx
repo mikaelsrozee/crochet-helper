@@ -16,7 +16,7 @@ const App = ({Component, pageProps}: AppProps) => {
           {rel: 'apple-touch-icon', href: '/favicon-180.png', sizes: '180x180'},
         ]}
         noindex
-      />
+      ></NextSeo>
       <Layout>
         <Component {...pageProps} />
       </Layout>

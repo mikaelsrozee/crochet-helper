@@ -6,8 +6,6 @@ import SpeechRecognition, {
 import wordsToNumbers from 'words-to-numbers';
 
 const appId = '23bd67e4-b376-484f-b92c-a0b5dbfeb294';
-const SpeechlySpeechRecognition = createSpeechlySpeechRecognition(appId);
-SpeechRecognition.applyPolyfill(SpeechlySpeechRecognition);
 
 interface VoiceCounterOptions {
   countTo: number;
@@ -27,6 +25,8 @@ const useVoiceCounter = ({countTo}: VoiceCounterOptions) => {
 
   // Start listening immediately
   useEffect(() => {
+    const SpeechlySpeechRecognition = createSpeechlySpeechRecognition(appId);
+    SpeechRecognition.applyPolyfill(SpeechlySpeechRecognition);
     SpeechRecognition.startListening({continuous: true});
   }, []);
 
