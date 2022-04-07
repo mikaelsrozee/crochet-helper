@@ -21,7 +21,11 @@ const InputValue = () => {
         <h2 className="text-3xl font-extrabold">{count}</h2>
         <button
           onClick={() => setCount(count - 1)}
-          className="w-16 h-16 text-2xl bg-white border-black rounded-lg m-auto"
+          className={cn(
+            'w-16 h-16 text-2xl bg-white border-black rounded-lg m-auto',
+            count <= 0 ? '!bg-gray-400' : ''
+          )}
+          disabled={count <= 0}
         >
           -
         </button>
