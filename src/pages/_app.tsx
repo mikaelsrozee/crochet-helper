@@ -1,5 +1,6 @@
 import {NextSeo} from 'next-seo';
 import type {AppProps} from 'next/app';
+import {RecoilRoot} from 'recoil';
 
 import Layout from '../components/Layout';
 
@@ -7,7 +8,7 @@ import '../styles/index.css';
 
 const App = ({Component, pageProps}: AppProps) => {
   return (
-    <>
+    <RecoilRoot>
       <NextSeo
         title="Prochet"
         description="A speech-controlled app to help you whilst you crochet!"
@@ -20,7 +21,7 @@ const App = ({Component, pageProps}: AppProps) => {
       <Layout>
         <Component {...pageProps} />
       </Layout>
-    </>
+    </RecoilRoot>
   );
 };
 
