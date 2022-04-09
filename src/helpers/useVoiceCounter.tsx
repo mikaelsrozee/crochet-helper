@@ -30,13 +30,27 @@ const useVoiceCounter = ({countTo}: VoiceCounterOptions) => {
     SpeechRecognition.startListening({continuous: true});
   }, []);
 
-  // Listen for N, and once heard, start listening for N + 1...
-  useEffect(() => {
-    const fromTranscript = wordsToNumbers(transcript);
+  const nextWords = ['next', 'count'];
+  const backWords = ['back'];
 
-    if (typeof fromTranscript === 'number' && fromTranscript === next) {
-      setCurrentCount(fromTranscript);
+  useEffect(() => {
+    if (nextWords.includes(transcript.toLowerCase())) {
+      // Allow to go forward 1
+      setCurrentCount(currentCount + 1);
       setNext(next + 1);
+    } else if (backWords.includes(transcript.toLowerCase())) {
+      // Allow to go back 1
+      setCurrentCount(currentCount - 1);
+      setNext(next - 1);
+    } else {
+      // Listen for N, and once heard, start listening for N + 1...
+
+      const fromTranscript = wordsToNumbers(transcript);
+
+      if (typeof fromTranscript === 'number' && fromTranscript === next) {
+        setCurrentCount(fromTranscript);
+        setNext(next + 1);
+      }
     }
 
     resetTranscript();
