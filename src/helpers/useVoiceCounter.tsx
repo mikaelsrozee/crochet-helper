@@ -3,7 +3,9 @@ import {useEffect, useState} from 'react';
 import SpeechRecognition, {
   useSpeechRecognition,
 } from 'react-speech-recognition';
+import {useRecoilState} from 'recoil';
 import wordsToNumbers from 'words-to-numbers';
+import {backgroundColor} from './context';
 
 const appId = '23bd67e4-b376-484f-b92c-a0b5dbfeb294';
 
@@ -23,6 +25,8 @@ const useVoiceCounter = ({countTo}: VoiceCounterOptions) => {
   const [currentCount, setCurrentCount] = useState(0);
   const [next, setNext] = useState(1);
 
+  const [bgColor, setBgColor] = useRecoilState(backgroundColor);
+
   // Start listening immediately
   useEffect(() => {
     const SpeechlySpeechRecognition = createSpeechlySpeechRecognition(appId);
@@ -30,13 +34,30 @@ const useVoiceCounter = ({countTo}: VoiceCounterOptions) => {
     SpeechRecognition.startListening({continuous: true});
   }, []);
 
-  // Listen for N, and once heard, start listening for N + 1...
-  useEffect(() => {
-    const fromTranscript = wordsToNumbers(transcript);
+  const nextWords = ['next', 'count'];
+  const backWords = ['back'];
 
-    if (typeof fromTranscript === 'number' && fromTranscript === next) {
-      setCurrentCount(fromTranscript);
+  useEffect(() => {
+    if (nextWords.includes(transcript.toLowerCase())) {
+      // Allow to go forward 1
+      setCurrentCount(currentCount + 1);
       setNext(next + 1);
+      setBgColor(bgColor + 1);
+    } else if (backWords.includes(transcript.toLowerCase())) {
+      // Allow to go back 1
+      setCurrentCount(currentCount - 1);
+      setNext(next - 1);
+      setBgColor(bgColor + 1);
+    } else {
+      // Listen for N, and once heard, start listening for N + 1...
+
+      const fromTranscript = wordsToNumbers(transcript);
+
+      if (typeof fromTranscript === 'number' && fromTranscript === next) {
+        setCurrentCount(fromTranscript);
+        setNext(next + 1);
+        setBgColor(bgColor + 1);
+      }
     }
 
     resetTranscript();
